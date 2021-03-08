@@ -226,9 +226,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e6c506fe9104347a5ccac8be72fede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AR_object: {fileID: 8937111553352810436, guid: d7a41045b11def843b59ff860110f697, type: 3}
+  AR_object: {fileID: 1417520339166899461, guid: af8573ac9991137499372fc1224b462c, type: 3}
   AR_Camera: {fileID: 1189166537}
   raycastManager: {fileID: 10757655}
+  aRPlaneManager: {fileID: 10757654}
+  m_TogglePlaneDetectionText: {fileID: 0}
 --- !u!4 &223974228
 Transform:
   m_ObjectHideFlags: 0
@@ -336,6 +338,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &990831452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 990831454}
+  - component: {fileID: 990831453}
+  m_Layer: 0
+  m_Name: PlaneCreateTestGameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &990831453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990831452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc152142b00dea54790698d36ee61577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToPlace: {fileID: 1417520339166899461, guid: af8573ac9991137499372fc1224b462c, type: 3}
+  defaultTexture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!4 &990831454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990831452}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1189166536
 GameObject:
   m_ObjectHideFlags: 0
