@@ -1,0 +1,80 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+// using UnityEngine.Experimental.XR;
+using UnityEngine.XR.ARSubsystems;
+
+//버전이 바뀌면서 ARSessionOring의 RayCast함수가 ARRayCastManager클래스로 따로 빠졌다.
+
+public class ARTapToPlaceObject : MonoBehaviour
+{
+    // ARSessionOrigin은 현실세상과 상호작용할 떄 중요한 역할을 한다.(구버전)
+    // private ARSessionOrigin arOrigin;
+    
+    // 카메라가 가리키는 위치를 확인 및 공간에서 해당 위치를 나타 내기 위해 가상 물체를 배치할 수 있는 위치가 있는지 확인위함.
+    // Pose는 3D포인트에 대해 position과 rotation으로 나타낸다.
+    private Pose placementPose;
+    private ARRaycastManager arRaycastManager;
+    private bool placementPoseIsValid = false;
+    
+    public GameObject placementIndicator;
+    public GameObject objectToPlace;
+
+    void Start()
+    {
+        // arOrigin = FindObjectOfType<ARSessionOrigin>();
+        arRaycastManager = FindObjectOfType<ARRaycastManager>();
+    }
+
+    void Update()
+    {
+        UpdatePlacementPose(); //Pose가 실시간 Update된다.
+        UpdatePlacementIndicator(); //Pose에 따른 visual적인 변화를 실시간 Update
+
+        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            PlaceObject();
+        }
+    }
+
+    private void PlaceObject()
+    {
+        Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+    }
+
+    private void UpdatePlacementPose()
+    {
+        // var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var hits = new List<ARRaycastHit>();
+
+        //screenCenter : 광선을 쏠 지점
+        arRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
+
+        placementPoseIsValid = hits.Count > 0;
+        if (placementPoseIsValid)
+        {
+            placementPose = hits[0].pose;
+
+            //Indicator의 rotation이 카메라가 보는 방향따라 변하지 않는 점을 개선하는 코드
+            var cameraForward = Camera.current.transform.forward;
+            var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z);
+            placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+        }
+    }
+
+    private void UpdatePlacementIndicator()
+    {
+        if (placementPoseIsValid)
+        {
+            placementIndicator.SetActive(true);
+            placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
+        }
+        else 
+        {
+            placementIndicator.SetActive(false);
+        }
+    }
+
+}
