@@ -20,6 +20,7 @@ public class ARTapToPlaceObject : MonoBehaviour
     
     public GameObject placementIndicator;
     public GameObject objectToPlace;
+    // public GameObject generatedGround;
 
     void Start()
     {
@@ -45,11 +46,12 @@ public class ARTapToPlaceObject : MonoBehaviour
 
     private void UpdatePlacementPose()
     {
-        // var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        //(0,0)은 카메라의 왼쪽하단, (1,1)은 오른쪽 상단 => (0.5, 0.5)는 중간.
+        //카메라의 뷰포트 공간의 좌표를 스크린 화면 좌표로 변환하여, 화면중간으로 인디케이터를 띄우게 함.
         var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         var hits = new List<ARRaycastHit>();
 
-        //screenCenter : 광선을 쏠 지점
+        //screenCenter : 광선을 쏠 지점으로 사용 됨.
         arRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
 
         placementPoseIsValid = hits.Count > 0;
